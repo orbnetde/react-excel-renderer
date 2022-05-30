@@ -1,4 +1,6 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
+
 module.exports = {
     entry: './src/index.js',
     mode: 'production',
@@ -6,7 +8,7 @@ module.exports = {
         path: path.resolve(__dirname, 'build'),
         filename: 'index.js',
         library: {
-            type: 'commonjs2'
+            type: 'commonjs-module'
         }
     },
     module: {
@@ -23,5 +25,18 @@ module.exports = {
     },
     externals: {
         'react': 'commonjs react'
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                extractComments: false,
+                terserOptions: {
+                    format: {
+                        comments: false,
+                    },
+                },
+            }),
+        ],
     }
 };
