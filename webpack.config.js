@@ -6,7 +6,7 @@ module.exports = {
         path: path.resolve(__dirname, 'build'),
         filename: 'index.js',
         library: {
-            type: 'commonjs'
+            type: 'commonjs-module'
         }
     },
     module: {
