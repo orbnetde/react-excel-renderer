@@ -4,7 +4,10 @@ module.exports = {
     mode: 'production',
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'index.js'
+        filename: 'index.js',
+        library: {
+            type: 'commonjs'
+        }
     },
     module: {
         rules: [
