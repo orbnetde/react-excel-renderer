@@ -1,6 +1,15 @@
 import React, {Component} from 'react';
 import {read, utils} from 'xlsx';
 
+function make_cols(refstr) {
+    const o = [],
+        C = utils.decode_range(refstr).e.c + 1;
+    for (let i = 0; i < C; ++i) {
+        o[i] = {name: utils.encode_col(i), key: i};
+    }
+    return o;
+}
+
 export class OutTable extends Component {
 
     constructor(props) {
@@ -54,16 +63,10 @@ export function ExcelRenderer(file, callback) {
             resolve(data);
             return callback(null, data);
         };
-        if (file && rABS) reader.readAsBinaryString(file);
-        else reader.readAsArrayBuffer(file);
+        if (file && rABS) {
+            reader.readAsBinaryString(file);
+        } else {
+            reader.readAsArrayBuffer(file);
+        }
     });
-}
-
-function make_cols(refstr) {
-    const o = [],
-        C = utils.decode_range(refstr).e.c + 1;
-    for (let i = 0; i < C; ++i) {
-        o[i] = {name: utils.encode_col(i), key: i};
-    }
-    return o;
 }
