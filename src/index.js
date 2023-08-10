@@ -1,5 +1,15 @@
 import React, {Component} from 'react';
-import {read, utils} from 'xlsx';
+
+const read = React.lazy(async () => {
+    return {
+        default: (import('xlsx')).read
+    }
+});
+const utils = React.lazy(async () => {
+    return {
+        default: (import('xlsx')).utils
+    }
+});
 
 function make_cols(refstr) {
     const o = [],

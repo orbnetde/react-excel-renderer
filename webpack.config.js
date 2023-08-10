@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
     entry: './src/index.js',
     mode: 'production',
+    devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'index.js',
@@ -30,13 +31,47 @@ module.exports = {
         minimize: true,
         minimizer: [
             new TerserPlugin({
-                extractComments: false,
+                parallel: 10,
+                minify: TerserPlugin.uglifyJsMinify,
                 terserOptions: {
-                    format: {
-                        comments: false,
-                    },
+                    compress: true
                 },
-            }),
+            })
         ],
+        splitChunks: {
+            chunks: 'async',
+            minSize: 20000,
+            minRemainingSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 30,
+            maxInitialRequests: 30,
+            enforceSizeThreshold: 50000,
+            cacheGroups: {
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    reuseExistingChunk: true,
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+            },
+        }
     }
+    // optimization: {
+    //     minimize: true,
+    //     minimizer: [
+    //         new TerserPlugin({
+    //             extractComments: false,
+    //             terserOptions: {
+    //                 format: {
+    //                     comments: false,
+    //                 },
+    //             },
+    //         }),
+    //     ],
+    //
+    // }
 };
