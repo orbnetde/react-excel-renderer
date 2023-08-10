@@ -1,15 +1,5 @@
 import React, {Component} from 'react';
-
-const read = React.lazy(async () => {
-    return {
-        default: (import('xlsx')).read
-    }
-});
-const utils = React.lazy(async () => {
-    return {
-        default: (import('xlsx')).utils
-    }
-});
+import {read, utils} from 'xlsx';
 
 function make_cols(refstr) {
     const o = [],
@@ -52,7 +42,7 @@ export class OutTable extends Component {
 }
 
 export function ExcelRenderer(file, callback) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         const reader = new FileReader();
         const rABS = !!reader.readAsBinaryString;
         reader.onload = function (e) {
